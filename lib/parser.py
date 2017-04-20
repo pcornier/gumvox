@@ -242,7 +242,7 @@ class Parser(object):
     def set_module(self, match):
         """Set current module"""
 
-        module = self.get_module(match.group(1))
+        self.module = self.get_module(match.group(1))
         return self.state
 
 
