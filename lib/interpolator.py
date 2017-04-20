@@ -24,26 +24,26 @@ class NoteInterpolator(object):
             '/\\': self.ease_in_out
         }
 
-    def linear(self, tick, start, end, duration):
+    def linear(self, tick, start, length, duration):
         """Linear interpolation"""
-        return end * tick / duration + start
+        return length * tick / duration + start
 
-    def ease_in(self, tick, start, end, duration):
+    def ease_in(self, tick, start, length, duration):
         """Cubic ease-in"""
         tick /= duration
-        return end * tick * tick * tick + start
+        return length * tick * tick * tick + start
 
-    def ease_out(self, tick, start, end, duration):
+    def ease_out(self, tick, start, length, duration):
         """Cubic ease-out"""
         tick /= duration
         tick -= 1
-        return end * (tick * tick * tick + 1) + start
+        return length * (tick * tick * tick + 1) + start
 
-    def ease_in_out(self, tick, start, end, duration):
+    def ease_in_out(self, tick, start, length, duration):
         """Cubic in/out"""
         tick /= duration / 2
         if tick < 1:
-            return end / 2 * tick * tick * tick + start
+            return length / 2 * tick * tick * tick + start
         tick -= 2
-        return end / 2 * (tick * tick * tick + 2) + start
+        return length / 2 * (tick * tick * tick + 2) + start
 
