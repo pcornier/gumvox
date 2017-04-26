@@ -16,7 +16,7 @@ class Resolver(object):
                 buf += seq[int(position)] + ' '
             else:
                 buf += '. '
-        return buf
+        return match.group(1) + buf
 
 
 
@@ -32,6 +32,13 @@ class Resolver(object):
         except ValueError:
             return match.group(3)
 
+
+    def repeat_sequence(self, match):
+        try:
+            rep = [match.group(2)] * int(match.group(1))
+            return '-'.join(rep)
+        except ValueError:
+            return match.group(2)
 
     def parenthesis(self, line):
         """It returns content inside parenthesis"""
@@ -52,12 +59,24 @@ class Resolver(object):
         """Source first pass"""
 
         new = []
+        sequencer_section = False
         source = re.sub(r"('|\"){3}\n*(.+\n)*('|\"){3}", '', source, re.MULTILINE)
         source = re.sub(r'(\s|\()(\d+)([a-gA-G][0-9]|\.)', self.repeat, source)
         for line in iter(source.splitlines()):
-            while '(' in line:
-                pattern = r'' + self.parenthesis(line)[1:]
-                pattern = pattern.replace(r'(', r'\(').replace(r')', r'\)').replace(r'*', r'\*')
-                line = re.sub(r'(\s|\()(s*\d*)\((' + pattern + r')\)', self.repeat, line)
+
+            if line.startswith('---'):
+				sequencer_section = True
+
+            if sequencer_section:
+				line = re.sub(r'(\d+)\(([^\s]+)\)', self.repeat_sequence, line)
+
+            else:
+                while '(' in line:
+                    pattern = r'' + self.parenthesis(line)[1:]
+                    pattern = pattern.replace(r'(', r'\(').replace(r')', r'\)').replace(r'*', r'\*')
+                    line = re.sub(r'(\s|\()(s*\d+)\((' + pattern + r')\)', self.repeat, line)
+
             new.append(line)
+
         return '\n'.join(new)
+

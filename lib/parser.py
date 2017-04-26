@@ -28,12 +28,18 @@ class Parser(object):
 
 
 
-    def tempo(self, match):
+    def bpm(self, match):
         """set tempo"""
 
         self.project.initial_bpm = int(match.group(1))
         return self.state
 
+
+    def tpl(self, match):
+        """set ticks per line"""
+
+        self.project.initial_tpl = int(match.group(1))
+        return self.state
 
 
     def name(self, match):
@@ -126,7 +132,7 @@ class Parser(object):
         """search pattern by name"""
 
         for pattern in self.project.patterns:
-            if pattern.name == name:
+            if hasattr(pattern, 'name') and  pattern.name == name:
                 return pattern
 
         return False
@@ -307,6 +313,7 @@ class Parser(object):
         """clone and transpose"""
 
         clone = Pattern()
+        clone.lines = pattern.lines
         clone.name = pattern.name
         clone._data = deepcopy(pattern.data)
         for i in range(pattern.lines):
@@ -324,7 +331,7 @@ class Parser(object):
 
         names = []
         if '-' in match.group(0):
-            names = match.group(0).split('-')
+            names = match.group(0).replace('^-', '^^').split('-')
         else:
             names = [match.group(0)]
 
@@ -333,9 +340,9 @@ class Parser(object):
 
             semitones = 0
             if '^' in name:
+                name = name.replace('^^', '^-')
                 name, semitones = name.split('^')
 
-            # pattern = [pt for pt in self.project.patterns if hasattr(pt, 'name') and pt.name == name]
             pattern = self.get_pattern(name)
             if pattern:
 
@@ -377,7 +384,8 @@ class Parser(object):
         'spaces'             : r'\s+',
         'eol'                : r'\n',
         'name'               : r'name\s+(.+)\n',
-        'tempo'              : r'tempo\s+(\d+)\n',
+        'bpm'                : r'bpm\s+(\d+)\n',
+        'tpl'                : r'tpl\s+(\d+)\n',
         'blk_line'           : r'^\n',
         'track'              : r't(\d+)',
         'row'                : r'r(\d+)',
@@ -404,7 +412,8 @@ class Parser(object):
     # parser dictionary
     states_source = OrderedDict()
     states_source[regexp['comment']] = collector
-    states_source[regexp['tempo']] = tempo
+    states_source[regexp['bpm']] = bpm
+    states_source[regexp['tpl']] = tpl
     states_source[regexp['name']] = name
     states_source[regexp['open_sequencer']] = open_sequencer
     states_source[regexp['open_module']] = open_module
