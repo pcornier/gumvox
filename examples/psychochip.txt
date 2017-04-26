@@ -1,0 +1,49 @@
+# Psychochip-005
+# Original mod by King (modarchive.org)
+
+bpm 160
+tpl 4
+
+:main_amp Amplifier &
+
+:drm DrumSynth snare_length 40 main_amp
+drums: r2 8(E4 3.) r0 4(D3 3. g6 3.) r10 D3
+
+
+:arp_amp Amplifier volume 60 main_amp
+:arp Generator waveform square sustain 0 release 100 polyphony_ch 1 arp_amp
+arp,16: 2(s6(C5 a5 C6)) s4(a5 C6)
+arp2,16: 2(s6(F5 G5 g5)) s4(G5 g5)
+
+:bass Generator waveform saw polyphony_ch 1 main_amp
+bass,16: s16(C1 C0 2C2 C1 C0 C2 C0)
+
+:lead_echo Echo main_amp
+:lead Generator waveform square volume 80 lead_echo
+lead1,64: F5 G5:00030020 18. s14(C6 a5 C6 G5 F5 d5 g4) 4. a4 C5:00030020 4. s6(d5 g4 F5) 6. s8(d5 D5 a4 G4) 
+lead2,64: F5 G5:00030020 18. s14(G5 C6 a5 G5 F5 d5 g4) 4. a4 C5:00030020 4. s6(d5 g4 D5) 4. d5 D5 s8(G5 F5 d5 D4) 
+lead3,64: a4 C5:00030020 4. g4 5. d5 . D5'10 . D5 5. d5 D5 s10(C5 F4 a4 a4 C5) r52 C4 3. d4 2. a3 G4:00030020
+lead4,64: a4 C5:00030020 4. g4 5. d5 . D5'10 . D5 7. s10(C5 F4 a4 a4 C5)
+
+---
+
+2(drums) 4(arp) 2(bass)-bass^-4-bass^-2
+2(drums) 4(arp) 2(bass)-bass^-4-bass^-2
+2(drums) 4(arp) 2(bass)-bass^-4-bass^-2 lead1
+2(drums) 4(arp) 2(bass)-bass^-4-bass^-2 lead2
+2(drums) 4(arp) 2(bass)-bass^-4-bass^-2 lead1
+2(drums) 4(arp) 2(bass)-bass^-4-bass^-2 lead2
+2(drums) 4(arp) bass^-4-bass^-2-2(bass) lead3
+2(drums) 4(arp) bass^-4-bass^-2-2(bass) lead4
+2(drums) 4(arp) bass^-4-bass^-2-2(bass) lead3
+2(drums) 4(arp) bass^-4-bass^-2-2(bass) lead4
+
+2(drums) 4(arp) 2(bass)-bass^-4-bass^-2 lead1
+2(drums) 4(arp) 2(bass)-bass^-4-bass^-2 lead2
+2(drums) 4(arp) 2(bass)-bass^-4-bass^-2 lead1
+2(drums) 4(arp) 2(bass)-bass^-4-bass^-2 lead2
+2(drums) 4(arp) bass^-4-bass^-2-2(bass) lead3
+2(drums) 4(arp) bass^-4-bass^-2-2(bass) lead4
+2(drums) 4(arp) bass^-4-bass^-2-2(bass) lead3
+2(drums) 4(arp) bass^-4-bass^-2-2(bass) lead4
+
