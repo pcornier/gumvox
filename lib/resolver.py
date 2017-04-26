@@ -65,10 +65,10 @@ class Resolver(object):
         for line in iter(source.splitlines()):
 
             if line.startswith('---'):
-				sequencer_section = True
+                sequencer_section = True
 
             if sequencer_section:
-				line = re.sub(r'(\d+)\(([^\s]+)\)', self.repeat_sequence, line)
+                line = re.sub(r'(\d+)\(([^\s]+)\)', self.repeat_sequence, line)
 
             else:
                 while '(' in line:
