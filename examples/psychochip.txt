@@ -7,8 +7,7 @@ tpl 4
 :main_amp Amplifier &
 
 :drm DrumSynth snare_length 40 main_amp
-drums: r2 8(E4 3.) r0 4(D3 3. g6 3.) r10 D3
-
+drums: r2 8(F4 3.) r0 4(D3 3. g6 3.) r10 D3
 
 :arp_amp Amplifier volume 60 main_amp
 :arp Generator waveform square sustain 0 release 100 polyphony_ch 1 arp_amp
@@ -29,6 +28,7 @@ lead4,64: a4 C5:00030020 4. g4 5. d5 . D5'10 . D5 7. s10(C5 F4 a4 a4 C5)
 
 2(drums) 4(arp) 2(bass)-bass^-4-bass^-2
 2(drums) 4(arp) 2(bass)-bass^-4-bass^-2
+
 2(drums) 4(arp) 2(bass)-bass^-4-bass^-2 lead1
 2(drums) 4(arp) 2(bass)-bass^-4-bass^-2 lead2
 2(drums) 4(arp) 2(bass)-bass^-4-bass^-2 lead1
