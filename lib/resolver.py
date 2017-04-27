@@ -60,6 +60,7 @@ class Resolver(object):
 
         new = []
         sequencer_section = False
+        source = re.sub(r'#.+\n', '', source)
         source = re.sub(r"('|\"){3}\n*(.+\n)*('|\"){3}", '', source, re.MULTILINE)
         source = re.sub(r'(\s|\()(\d+)([a-gA-G][0-9]|\.)', self.repeat, source)
         for line in iter(source.splitlines()):

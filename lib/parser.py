@@ -389,7 +389,6 @@ class Parser(object):
         'blk_line'           : r'^\n',
         'track'              : r't(\d+)',
         'row'                : r'r(\d+)',
-        'comment'            : r'#.+\n',
         'lexem'              : r'([^\s]+)',
         'open_pattern'       : r'^([^\s]+): ',
         'close_pattern'      : r'\n\n',
@@ -411,7 +410,6 @@ class Parser(object):
 
     # parser dictionary
     states_source = OrderedDict()
-    states_source[regexp['comment']] = collector
     states_source[regexp['bpm']] = bpm
     states_source[regexp['tpl']] = tpl
     states_source[regexp['name']] = name
@@ -422,7 +420,6 @@ class Parser(object):
 
     states_module = OrderedDict()
     states_module[regexp['spaces']] = collector
-    states_module[regexp['comment']] = collector
     states_module[regexp['open_module']] = open_module
     states_module[regexp['close_module']] = close_module
     states_module[regexp['open_pattern']] = open_pattern
@@ -431,7 +428,6 @@ class Parser(object):
     states_pattern = OrderedDict()
     states_pattern[regexp['close_pattern']] = close_pattern
     states_pattern[regexp['open_sequencer']] = open_sequencer
-    states_pattern[regexp['comment']] = collector
     states_pattern[regexp['space']] = collector
     states_pattern[regexp['track']] = set_track
     states_pattern[regexp['row']] = set_row
@@ -449,11 +445,11 @@ class Parser(object):
     states_interpolate[regexp['spaces']] = collector
 
     states_note = OrderedDict()
+    states_note[regexp['close_pattern']] = close_pattern
     states_note[regexp['space_eol']] = end_note
     states_note[regexp['params']] = controller
 
     states_sequencer = OrderedDict()
-    states_sequencer[regexp['comment']] = collector
     states_sequencer[regexp['seq_pattern']] = seq_pattern
     states_sequencer[regexp['eol']] = seq_next_line
     states_sequencer[regexp['spaces']] = collector
@@ -481,7 +477,7 @@ class Parser(object):
                     source = source[match.end(0):]
                     break
             if source == original:
-                error = source[0:20] + '...'
+                error = source[0:20] + '... ' + str(self.state)
                 raise SyntaxError(error)
 
             original = source
